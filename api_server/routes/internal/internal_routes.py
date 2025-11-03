@@ -23,14 +23,7 @@ class InternalRoutes:
         async def get_logs(request):
             return web.json_response("".join([(l["t"] + " - " + l["m"]) for l in app.logger.get_logs()]))
 
-        @self.routes.get('/logs/raw')
-        async def get_raw_logs(request):
-            self.terminal_service.update_size()
-            return web.json_response({
-                "entries": list(app.logger.get_logs()),
-                "size": {"cols": self.terminal_service.cols, "rows": self.terminal_service.rows}
-            })
-
+        
         @self.routes.patch('/logs/subscribe')
         async def subscribe_logs(request):
             json_data = await request.json()
