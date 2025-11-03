@@ -42,6 +42,13 @@ class InternalRoutes:
                 self.terminal_service.unsubscribe(client_id)
 
             return web.Response(status=200)
+@self.routes.get('/logs/raw')
+        async def get_raw_logs(request):
+            self.terminal_service.update_size()
+            return web.json_response({
+                "entries": list(app.logger.get_logs()),
+                "size": {"cols": self.terminal_service.cols, "rows": self.terminal_service.rows}
+            })
 
 
         @self.routes.get('/folder_paths')
